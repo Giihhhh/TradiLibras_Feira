@@ -1,0 +1,98 @@
+import { Tabs } from "expo-router";
+import React from "react";
+
+import { HapticTab } from "@/components/haptic-tab";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+
+export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarButton: HapticTab,
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="o-que-eh-libras"
+        options={{
+          title: "Libras",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="tudo"
+        options={{
+          title: "Modulos",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="tradutor"
+        options={{
+          title: "Tradutor",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="videos"
+        options={{
+          title: "Videos",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="testes"
+        options={{
+          title: "Testes",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="alfabeto"
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="nossotras"
+        options={{
+          title: "Sobre Nós",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+}

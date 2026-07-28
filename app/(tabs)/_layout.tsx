@@ -1,8 +1,8 @@
 import { Tabs } from "expo-router";
 import React from "react";
+import { Image } from "react-native";
 
 import { HapticTab } from "@/components/haptic-tab";
-import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
@@ -13,36 +13,34 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: "#8ec0fb",
         headerShown: false,
         tabBarButton: HapticTab,
       }}
     >
+      
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Image
+            source={require("@/assets/images/iconhome.png")}
+            style={{ width: 28, height: 28, tintColor: color }}
+            />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="o-que-eh-libras"
+        name="testes"
         options={{
-          title: "Libras",
+          title: "Atividades",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="tudo"
-        options={{
-          title: "Modulos",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Image
+            source={require("@/assets/images/iconativ.png")}
+            style={{ width: 28, height: 28, tintColor: color }}
+            />
           ),
         }}
       />
@@ -52,45 +50,56 @@ export default function TabLayout() {
         options={{
           title: "Tradutor",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Image
+            source={require("@/assets/images/icontrad.png")}
+            style={{ width: 28, height: 28, tintColor: color }}
+            />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="o-que-eh-libras"
+        options={{
+          href: null,
         }}
       />
 
       <Tabs.Screen
         name="videos"
         options={{
-          title: "Videos",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
+          href: null,
         }}
       />
 
       <Tabs.Screen
-        name="testes"
+        name="infos"
         options={{
-          title: "Testes",
+          title: "",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Image
+            source={require("@/assets/images/iconinfo.png")}
+            style={{ width: 28, height: 28, tintColor: color }}
+            />
           ),
         }}
       />
-
       <Tabs.Screen
-        name="alfabeto"
+        name="dicion"
         options={{
-          tabBarButton: () => null,
+          href: null,
         }}
       />
-
       <Tabs.Screen
         name="nossotras"
         options={{
-          title: "Sobre Nós",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
+          href: null,
+        }}
+        />
+      <Tabs.Screen
+        name="videoaulas"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

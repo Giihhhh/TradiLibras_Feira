@@ -1,13 +1,14 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { useFocusEffect } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, StyleSheet } from "react-native";
 
 // ⚠️ Troque pelo IP local do seu computador na mesma rede Wi-Fi do celular.
 // Descubra com `ipconfig` (Windows) ou `ifconfig`/`ip a` (Linux/Mac).
 // Quando for hospedar a API de verdade (Render/Railway), troque por essa URL.
-const API_URL = "http://192.168.3.108:5000";
+const API_URL = "https://tradilibras-api.onrender.com/traduzir";
 
 const INTERVALO_MS = 150; // intervalo entre cada foto
 const MAX_FRAMES = 30; // mesmo N_FRAMES do seu modelo
@@ -24,6 +25,20 @@ export default function TradutorPage() {
 
   const framesRef = useRef<string[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      const timer = setTimeout(() => {
+        Alert.alert(
+          "Aviso",
+          "O tradutor ainda não está finalizado, este módulo tem como objetivo imediato testar a ferramenta. Futuramente, ele será utilizado como um meio de feedback, visando a aprendizagem dos usuários. obs: qualquer sugestão ou observação podem ser feitas através do nosso instagram @tradilibras. Lembro novamente, que o tradutor ainda está em desenvolvimento e não possui uma base de dados suficiente, portanto ele está sujeito a erros.",
+          [{ text: "OK" }],
+        );
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }, []),
+  );
 
   const ensurePermissions = async () => {
     if (!cameraPermission?.granted) {
@@ -43,8 +58,9 @@ export default function TradutorPage() {
     if (!cameraRef.current) return;
     try {
       const foto = await cameraRef.current.takePictureAsync({
-        quality: 0.5,
+        quality: 0.8,
         skipProcessing: true,
+        shutterSound: false,
       });
       if (foto?.uri) {
         framesRef.current.push(foto.uri);
@@ -96,9 +112,6 @@ export default function TradutorPage() {
       const response = await fetch(API_URL, {
         method: "POST",
         body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
       });
 
       if (!response.ok) {
@@ -134,28 +147,44 @@ export default function TradutorPage() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title">Tradutor de Libras</ThemedText>
+      <ThemedText style={styles.subtitle}>Instruções:</ThemedText>
+
       <ThemedText style={styles.subtitle}>
-        Segure o sinal em frente à câmera e toque para gravar.
+        1. Antes e depois de realizar o sinal mantenha a posição por um tempo.
       </ThemedText>
 
-      <ThemedView style={styles.cameraContainer}>
-        <CameraView ref={cameraRef} style={styles.camera} facing="back" />
+      <ThemedText style={styles.subtitle}>
+        2. A gravação deverá ter pelo menos 4 segundos.
+      </ThemedText>
 
-        {resultado && (
-          <ThemedView style={styles.resultadoBox}>
-            <ThemedText style={styles.resultadoTexto}>
-              Letra: {resultado.letra} ({resultado.confianca}%)
-            </ThemedText>
-          </ThemedView>
-        )}
+      <ThemedView style={styles.cameraWrapper}>
+        <ThemedView style={styles.cameraContainer}>
+          <CameraView
+            ref={cameraRef}
+            style={styles.camera}
+            facing="front"
+            flash="off"
+            animateShutter={false}
+          />
 
+          {resultado && (
+            <ThemedView style={styles.resultadoBox}>
+              <ThemedText style={styles.resultadoTexto}>
+                Letra: {resultado.letra} ({resultado.confianca}%)
+              </ThemedText>
+            </ThemedView>
+          )}
+        </ThemedView>
+
+        {/* Botão agora é irmão do cameraContainer, não filho.
+            Fica posicionado por cima, na mesma posição visual de antes. */}
         <Pressable
           style={[styles.button, isRecording && styles.buttonRecording]}
           onPress={handleStartStopRecording}
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#6184b1" />
           ) : (
             <ThemedText style={styles.buttonText}>
               {isRecording ? "Parar e traduzir" : "Iniciar gravação"}
@@ -176,21 +205,27 @@ const styles = StyleSheet.create({
   subtitle: {
     opacity: 0.8,
   },
+  // Novo wrapper: ocupa o espaço que o cameraContainer ocupava antes,
+  // e serve de "chão" pro botão flutuar por cima via position absolute.
+  cameraWrapper: {
+    flex: 1,
+    position: "relative",
+  },
   cameraContainer: {
     flex: 1,
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: "#000",
-    justifyContent: "flex-end",
   },
   camera: {
-    flex: 1,
+    // força a câmera a preencher 100% do container, sem sobrar preto
+    ...StyleSheet.absoluteFillObject,
   },
   resultadoBox: {
     position: "absolute",
     top: 20,
     alignSelf: "center",
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(252, 245, 245, 0.6)",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 12,
@@ -201,20 +236,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   button: {
+    position: "absolute",
+    bottom: 24, // mesma distância que tinha com marginBottom: 24 antes
     alignSelf: "center",
-    marginBottom: 24,
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 999,
-    backgroundColor: "#2563eb",
+    backgroundColor: "#2977ca",
     minWidth: 180,
     alignItems: "center",
   },
   buttonRecording: {
-    backgroundColor: "#dc2626",
+    backgroundColor: "#b64040",
   },
   buttonText: {
-    color: "#fff",
+    color: "#ece5e5",
     fontWeight: "700",
   },
 });

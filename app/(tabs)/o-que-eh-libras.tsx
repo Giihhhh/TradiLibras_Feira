@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginBottom: 12,
-    aligncontent: "center",
+    alignContent: "center",
     fontSize: 15,
     lineHeight: 24,
     textAlign: "justify",

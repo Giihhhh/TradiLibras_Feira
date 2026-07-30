@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 999,
-    backgroundColor: "#185999",
+    backgroundColor: "#fg185999",
     minWidth: 180,
     alignItems: "center",
   },

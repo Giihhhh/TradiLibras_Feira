@@ -112,6 +112,12 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="politica"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

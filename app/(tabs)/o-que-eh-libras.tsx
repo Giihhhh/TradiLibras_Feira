@@ -38,11 +38,11 @@ export default function OQueEhLibras() {
       </ThemedText>
 
       <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/texto1" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 1</Text>
+                    <Text style={styles.customButtonText}>Regionalismos na Libras</Text>
                   </View>
                 )}
               </Pressable>
@@ -50,11 +50,11 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/texto2" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 2</Text>
+                    <Text style={styles.customButtonText}>Comunidade Surda na Arte</Text>
                   </View>
                 )}
               </Pressable>
@@ -62,11 +62,11 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/texto3" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 3</Text>
+                    <Text style={styles.customButtonText}>História da Libras</Text>
                   </View>
                 )}
               </Pressable>
@@ -74,7 +74,7 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/texto4" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>

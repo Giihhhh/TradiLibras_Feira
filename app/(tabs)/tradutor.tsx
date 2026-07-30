@@ -31,7 +31,7 @@ export default function TradutorPage() {
       const timer = setTimeout(() => {
         Alert.alert(
           "Aviso",
-          "O tradutor ainda não está finalizado, este módulo tem como objetivo imediato testar a ferramenta. Futuramente, ele será utilizado como um meio de feedback, visando a aprendizagem dos usuários. obs: qualquer sugestão ou observação podem ser feitas através do nosso instagram @tradilibras. Lembro novamente, que o tradutor ainda está em desenvolvimento e não possui uma base de dados suficiente, portanto ele está sujeito a erros.",
+          "O tradutor ainda não está finalizado, este módulo tem como objetivo imediato testar a ferramenta. Futuramente, ele será utilizado como um meio de feedback, visando a aprendizagem dos usuários. Obs.: qualquer sugestão ou observação podem ser feitas através do nosso instagram: @tradilibras. Lembro novamente, que o tradutor ainda está em desenvolvimento e não possui uma base de dados suficiente, portanto ele está sujeito a erros.",
           [{ text: "OK" }],
         );
       }, 500);
@@ -146,7 +146,9 @@ export default function TradutorPage() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Tradutor de Libras</ThemedText>
+      <ThemedText type="title" style={{ marginTop: 40 }}>
+        Tradutor de Libras
+      </ThemedText>
       <ThemedText style={styles.subtitle}>Instruções:</ThemedText>
 
       <ThemedText style={styles.subtitle}>
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 999,
-    backgroundColor: "#2977ca",
+    backgroundColor: "#185999",
     minWidth: 180,
     alignItems: "center",
   },

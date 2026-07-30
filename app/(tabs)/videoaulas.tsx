@@ -8,14 +8,14 @@ import { Image, Pressable, StyleSheet, View } from "react-native";
 export default function OQueEhLibras() {
   return (
     <ParallaxScrollView
-          headerBackgroundColor={{ light: "#8bc1ff", dark: "#01233f" }}
-          headerImage={
-            <Image
-            source={require("@/assets/images/background.png")}
-            style={styles.reactLogo}
-            />
-          }
-        >
+      headerBackgroundColor={{ light: "#8bc1ff", dark: "#01233f" }}
+      headerImage={
+        <Image
+          source={require("@/assets/images/background.png")}
+          style={styles.reactLogo}
+        />
+      }
+    >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           Videoaulas
@@ -23,65 +23,84 @@ export default function OQueEhLibras() {
       </ThemedView>
 
       <ThemedView style={styles.centerButtonContainer}>
-            <Link href="@/assets/images/videoaulas/videoalfabeto" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Image
-                    source={require("@/assets/images/thumbalfabeto.png")}
-                    style={styles.reactLogo}
-                    />
-                </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
+        <Link href="/video-alfabeto" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/thumbalfabeto.png")}
+                  style={styles.reactLogo}
+                />
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
 
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Image
-                    source={require("@/assets/images/thumbsaudacoes.png")}
-                    style={styles.reactLogo}
-                    />
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
+      <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/video-saudacoes" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/thumbsaudacoes.png")}
+                  style={styles.reactLogo}
+                />
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
 
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Image
-                    source={require("@/assets/images/thumbverbos.png")}
-                    style={styles.reactLogo}
-                    />
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
+      <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/videos-verbos" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/thumbverbos.png")}
+                  style={styles.reactLogo}
+                />
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
 
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Image
-                    source={require("@/assets/images/thumbcores.png")}
-                    style={styles.reactLogo}
-                    />
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
-
+      <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/videos-cores" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/thumbcores.png")}
+                  style={styles.reactLogo}
+                />
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -111,28 +130,28 @@ const styles = StyleSheet.create({
   reactLogo: {
     width: "100%",
     height: 180,
-    resizeMode: "cover"
+    resizeMode: "cover",
   },
   customButton: {
-  backgroundColor: "#8bc1ff",
-  opacity: 0.95,
-  paddingVertical: 0,
-  width: 320,
-  borderRadius: 21,
-  alignItems: "center",
-  elevation: 3, // sombra no Android
-  shadowColor: "#000", // sombra no iOS
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.2,
-  shadowRadius: 4,
+    backgroundColor: "#8bc1ff",
+    opacity: 0.95,
+    paddingVertical: 0,
+    width: 320,
+    borderRadius: 21,
+    alignItems: "center",
+    elevation: 3, // sombra no Android
+    shadowColor: "#000", // sombra no iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   customButtonPressed: {
     opacity: 0.8,
   },
   customButtonText: {
-  color: "#fff",
-  fontSize: 16,
-  fontWeight: "bold",
-  textAlign: "center",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

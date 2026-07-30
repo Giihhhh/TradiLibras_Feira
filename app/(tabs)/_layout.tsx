@@ -118,6 +118,30 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="videos-verbos"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="videos-cores"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="video-alfabeto"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="video-saudacoes"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

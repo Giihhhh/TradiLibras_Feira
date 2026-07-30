@@ -54,7 +54,7 @@ export default function MenuPage() {
         </Pressable>
 
         <ThemedView style={styles.centerButtonContainer}>
-          <Link href="/politica-privacidade" asChild>
+          <Link href="/politica" asChild>
             <Pressable>
               {({ pressed }) => (
                 <View

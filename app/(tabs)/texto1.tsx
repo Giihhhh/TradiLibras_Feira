@@ -3,7 +3,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Fonts } from "@/constants/theme";
 import { useRouter } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
 
 export default function Texto1() {
   const router = useRouter();
@@ -18,6 +18,12 @@ export default function Texto1() {
         />
       }
     >
+      <Pressable onPress={() => router.replace("/o-que-eh-libras")} style={styles.backButton} hitSlop={10}>
+        {({ pressed }) => (
+          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
+        )}
+      </Pressable>
+
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           Regionalismos na Língua Brasileira de Sinais
@@ -38,7 +44,7 @@ export default function Texto1() {
         comunidades surdas com sinais próprios. Outro fator é a influência de
         sinais estrangeiros introduzidos por professores vindos de outros
         países, que se misturaram às línguas de sinais já existentes
-        localmente. Por exemplo, o sinal para "ônibus" pode ser diferente em
+        localmente. Por exemplo, o sinal para “ônibus” pode ser diferente em
         São Paulo, Rio Grande do Sul e Bahia, mas todos são compreendidos
         dentro de suas comunidades.
       </ThemedText>
@@ -70,26 +76,22 @@ export default function Texto1() {
         de Política de Educação Especial na Perspectiva da Educação
         Inclusiva. Brasília, 2008.
       </ThemedText>
-
-      <NavRodape onVoltar={() => router.back()} onInicio={() => router.replace("/")} />
     </ParallaxScrollView>
   );
 }
 
-function NavRodape({ onVoltar, onInicio }: { onVoltar: () => void; onInicio: () => void }) {
-  return (
-    <View style={styles.navRodape}>
-      <Pressable onPress={onVoltar} style={styles.navBotao}>
-        <Text style={styles.navBotaoTexto}>Voltar</Text>
-      </Pressable>
-      <Pressable onPress={onInicio} style={styles.navBotao}>
-        <Text style={styles.navBotaoTexto}>Início</Text>
-      </Pressable>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
+  backButton: {
+    marginTop: 10,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    alignSelf: "flex-start",
+  },
+  backButtonText: {
+    color: "#0a7ea4",
+    fontSize: 16,
+    fontWeight: "600",
+  },
   titleContainer: {
     flexDirection: "row",
     gap: 10,
@@ -120,22 +122,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 180,
     resizeMode: "cover",
-  },
-  navRodape: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 24,
-    marginBottom: 12,
-  },
-  navBotao: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 14,
-    backgroundColor: "#8bc1ff",
-    opacity: 0.9,
-  },
-  navBotaoTexto: {
-    color: "#fff",
-    fontWeight: "bold",
   },
 });

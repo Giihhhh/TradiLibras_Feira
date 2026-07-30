@@ -78,7 +78,7 @@ export default function OQueEhLibras() {
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 4</Text>
+                    <Text style={styles.customButtonText}>Identidade Cultural da Comunidade Surda</Text>
                   </View>
                 )}
               </Pressable>

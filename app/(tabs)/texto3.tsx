@@ -2,9 +2,12 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Fonts } from "@/constants/theme";
-import { Image, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
 
 export default function Texto3() {
+  const router = useRouter();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#8bc1ff", dark: "#01233f" }}
@@ -15,6 +18,12 @@ export default function Texto3() {
         />
       }
     >
+      <Pressable onPress={() => router.replace("/o-que-eh-libras")} style={styles.backButton} hitSlop={10}>
+        {({ pressed }) => (
+          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
+        )}
+      </Pressable>
+
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           História da Libras
@@ -106,6 +115,17 @@ export default function Texto3() {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    marginTop: 10,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    alignSelf: "flex-start",
+  },
+  backButtonText: {
+    color: "#0a7ea4",
+    fontSize: 16,
+    fontWeight: "600",
+  },
   titleContainer: {
     flexDirection: "row",
     gap: 10,

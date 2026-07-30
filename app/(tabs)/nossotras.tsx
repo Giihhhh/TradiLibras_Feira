@@ -2,8 +2,7 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Fonts } from "@/constants/theme";
-import { Link } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet } from "react-native";
 
 export default function OQueEhLibras() {
   return (
@@ -23,66 +22,26 @@ export default function OQueEhLibras() {
       </ThemedView>
 
       <ThemedText style={styles.paragraph}>
-        Somos alunas do 3º ano do Ensino Médio 
+        Olá, somos Giovanna Azzi, Giovanna Giardini e Ana Helena Aguilar, estudantes do 3º ano do Ensino Médio, apaixonadas por tecnologia, comunicação e pelo desenvolvimento de soluções que gerem impacto social. Foi desse interesse que nasceu o TradiLibras, um projeto criado para promover a inclusão e facilitar a comunicação entre pessoas surdas e ouvintes por meio da tecnologia.
       </ThemedText>
 
       <ThemedText style={styles.paragraph}>
-        É uma língua natural visual-espacial, baseada em sinais,
-        expressões faciais e movimentos corporais, permitindo comunicação plena
-        e sendo reconhecida oficialmente no país.
+        Nosso objetivo é contribuir para uma sociedade mais acessível, utilizando a inovação como ferramenta para aproximar pessoas e ampliar o acesso à Língua Brasileira de Sinais (Libras). Acreditamos que pequenas iniciativas podem transformar vidas e tornar a comunicação cada vez mais inclusiva.
       </ThemedText>
 
+        <Image
+            source={require("@/assets/images/usus.jpeg")}
+            style={styles.reactLogo}
+          />
       <ThemedText style={styles.paragraph}>
-        Esta aba traz textos sobre a Libras e também sobre a comunidade surda no Brasil.
+                                
+
+
+
+
+
+                                
       </ThemedText>
-
-      <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 1</Text>
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
-
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 2</Text>
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
-
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 3</Text>
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
-
-          <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
-                    <Text style={styles.customButtonText}>Texto 4</Text>
-                  </View>
-                )}
-              </Pressable>
-            </Link>
-          </ThemedView>
 
     </ParallaxScrollView>
   );
@@ -113,7 +72,8 @@ const styles = StyleSheet.create({
   reactLogo: {
     width: "100%",
     height: 180,
-    resizeMode: "cover"
+    resizeMode: "cover",
+    borderRadius: 21,
   },
   customButton: {
   backgroundColor: "#8bc1ff",

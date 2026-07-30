@@ -1,7 +1,12 @@
 {
-  "plugins": [
-    "expo-font",
-    "expo-router",
-    "expo-web-browser"
-  ]
+  "expo": {
+    "name": "TradiLibras",
+    "slug": "tradilibras",
+    "scheme": "tradilibras",
+    "plugins": [
+      "expo-font",
+      "expo-router",
+      "expo-web-browser"
+    ]
+  }
 }

@@ -23,7 +23,7 @@ export default function OQueEhLibras() {
       </ThemedView>
 
       <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="@/assets/images/videoaulas/videoalfabeto" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>

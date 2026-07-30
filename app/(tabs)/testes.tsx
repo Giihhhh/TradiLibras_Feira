@@ -27,7 +27,7 @@ export default function OQueEhLibras() {
       </ThemedText>
 
       <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="./quiz-alfabeto.tsx" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
@@ -39,7 +39,7 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/quiz-saudacoes" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
@@ -51,7 +51,7 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/quiz-verbos" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
@@ -63,7 +63,7 @@ export default function OQueEhLibras() {
           </ThemedView>
 
           <ThemedView style={styles.centerButtonContainer}>
-            <Link href="/tradutor" asChild>
+            <Link href="/quiz-cores" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <View style={[styles.customButton, pressed && styles.customButtonPressed]}>

@@ -142,6 +142,12 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="modulo-indisponivel"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

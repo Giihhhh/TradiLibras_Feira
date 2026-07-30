@@ -18,15 +18,14 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
       }}
     >
-      
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
             <Image
-            source={require("@/assets/images/iconhome.png")}
-            style={{ width: 28, height: 28, tintColor: color }}
+              source={require("@/assets/images/iconhome.png")}
+              style={{ width: 28, height: 28, tintColor: color }}
             />
           ),
         }}
@@ -38,8 +37,8 @@ export default function TabLayout() {
           title: "Atividades",
           tabBarIcon: ({ color }) => (
             <Image
-            source={require("@/assets/images/iconativ.png")}
-            style={{ width: 28, height: 28, tintColor: color }}
+              source={require("@/assets/images/iconativ.png")}
+              style={{ width: 28, height: 28, tintColor: color }}
             />
           ),
         }}
@@ -51,8 +50,8 @@ export default function TabLayout() {
           title: "Tradutor",
           tabBarIcon: ({ color }) => (
             <Image
-            source={require("@/assets/images/icontrad.png")}
-            style={{ width: 28, height: 28, tintColor: color }}
+              source={require("@/assets/images/icontrad.png")}
+              style={{ width: 28, height: 28, tintColor: color }}
             />
           ),
         }}
@@ -71,8 +70,8 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({ color }) => (
             <Image
-            source={require("@/assets/images/iconinfo.png")}
-            style={{ width: 28, height: 28, tintColor: color }}
+              source={require("@/assets/images/iconinfo.png")}
+              style={{ width: 28, height: 28, tintColor: color }}
             />
           ),
         }}
@@ -88,9 +87,27 @@ export default function TabLayout() {
         options={{
           href: null,
         }}
-        />
+      />
       <Tabs.Screen
         name="videoaulas"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="Alfabeto"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="Saudacoes"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="[letra]"
         options={{
           href: null,
         }}

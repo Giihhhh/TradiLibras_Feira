@@ -1,22 +1,33 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { Link } from "expo-router";
-import React from "react";
-import { StyleSheet } from "react-native";
+import { router } from "expo-router";
+import { FlatList, Pressable, StyleSheet } from "react-native";
+import { dicionarioMap } from "../videoMap";
 
-export default function ButtonAPage() {
+const LETRAS = Object.keys(dicionarioMap);
+
+export default function DicionarioPage() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Button A Page</ThemedText>
-      <ThemedText>
-        This is the page opened when you tap Button A. Use the back button or
-        the router to return.
+      <ThemedText type="title">Dicionário de Libras</ThemedText>
+      <ThemedText style={styles.subtitle}>
+        Toque em uma letra para ver como fazer o sinal.
       </ThemedText>
-      <Link href="/">
-        <Link.Trigger>
-          <ThemedText type="subtitle">Go back home</ThemedText>
-        </Link.Trigger>
-      </Link>
+
+      <FlatList
+        data={LETRAS}
+        keyExtractor={(item) => item}
+        numColumns={4}
+        contentContainerStyle={styles.grid}
+        renderItem={({ item: letra }) => (
+          <Pressable
+            style={styles.letraButton}
+            onPress={() => router.push(`/(tabs)/${letra}`)}
+          >
+            <ThemedText style={styles.letraTexto}>{letra}</ThemedText>
+          </Pressable>
+        )}
+      />
     </ThemedView>
   );
 }
@@ -26,5 +37,26 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 12,
+  },
+  subtitle: {
+    opacity: 0.8,
+  },
+  grid: {
+    gap: 12,
+    paddingVertical: 12,
+  },
+  letraButton: {
+    flex: 1,
+    aspectRatio: 1,
+    margin: 6,
+    borderRadius: 16,
+    backgroundColor: "#2563eb",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  letraTexto: {
+    color: "#fff",
+    fontSize: 28,
+    fontWeight: "700",
   },
 });

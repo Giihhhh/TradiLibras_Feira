@@ -3,7 +3,7 @@ import { ThemedView } from "@/components/themed-view";
 import { useLocalSearchParams } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { ScrollView, StyleSheet } from "react-native";
-import { dicionarioMap } from "./videoMap";
+import { dicionarioMap } from "../videoMap";
 
 export default function LetraDetalhe() {
   const { letra } = useLocalSearchParams<{ letra: string }>();
@@ -34,10 +34,6 @@ export default function LetraDetalhe() {
         allowsFullscreen
         allowsPictureInPicture
       />
-
-      <ThemedView style={styles.descricaoBox}>
-        <ThemedText style={styles.descricaoTexto}>{info.descricao}</ThemedText>
-      </ThemedView>
     </ScrollView>
   );
 }

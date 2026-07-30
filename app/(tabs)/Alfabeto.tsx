@@ -12,36 +12,36 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { dicionarioMap } from "./videoMap";
+import { dicionarioMap } from "../videoMap";
 
 // Imagens dos botões do grid (precisa ser require estático, não dá pra montar o caminho dinamicamente)
 const imageMap: Record<string, any> = {
-  A: require("../assets/images/a.png"),
-  B: require("../assets/images/b.png"),
-  C: require("../assets/images/c.png"),
-  D: require("../assets/images/d.png"),
-  E: require("../assets/images/e.png"),
-  F: require("../assets/images/f.png"),
-  G: require("../assets/images/g.png"),
-  H: require("../assets/images/h.png"),
-  I: require("../assets/images/i.png"),
-  J: require("../assets/images/j.png"),
-  K: require("../assets/images/k.png"),
-  L: require("../assets/images/l.png"),
-  M: require("../assets/images/m.png"),
-  N: require("../assets/images/n.png"),
-  O: require("../assets/images/o.png"),
-  P: require("../assets/images/p.png"),
-  Q: require("../assets/images/q.png"),
-  R: require("../assets/images/r.png"),
-  S: require("../assets/images/s.png"),
-  T: require("../assets/images/t.png"),
-  U: require("../assets/images/u.png"),
-  V: require("../assets/images/v.png"),
-  W: require("../assets/images/w.png"),
-  X: require("../assets/images/x.png"),
-  Y: require("../assets/images/y.png"),
-  Z: require("../assets/images/z.png"),
+  A: require("@/assets/images/a.png"),
+  B: require("@/assets/images/b.png"),
+  C: require("@/assets/images/c.png"),
+  D: require("@/assets/images/d.png"),
+  E: require("@/assets/images/e.png"),
+  F: require("@/assets/images/f.png"),
+  G: require("@/assets/images/g.png"),
+  H: require("@/assets/images/h.png"),
+  I: require("@/assets/images/i.png"),
+  J: require("@/assets/images/j.png"),
+  K: require("@/assets/images/k.png"),
+  L: require("@/assets/images/l.png"),
+  M: require("@/assets/images/m.png"),
+  N: require("@/assets/images/n.png"),
+  O: require("@/assets/images/o.png"),
+  P: require("@/assets/images/p.png"),
+  Q: require("@/assets/images/q.png"),
+  R: require("@/assets/images/r.png"),
+  S: require("@/assets/images/s.png"),
+  T: require("@/assets/images/t.png"),
+  U: require("@/assets/images/u.png"),
+  V: require("@/assets/images/v.png"),
+  W: require("@/assets/images/w.png"),
+  X: require("@/assets/images/x.png"),
+  Y: require("@/assets/images/y.png"),
+  Z: require("@/assets/images/z.png"),
 };
 
 const LETRAS = Object.keys(imageMap);
@@ -67,7 +67,6 @@ function ModalConteudo({ letra }: { letra: string }) {
   return (
     <>
       <VideoView style={styles.modalVideo} player={player} allowsFullscreen />
-      <ThemedText style={styles.modalDescricao}>{info.descricao}</ThemedText>
     </>
   );
 }
@@ -80,7 +79,7 @@ export default function OQueEhLibras() {
       headerBackgroundColor={{ light: "#8bc1ff", dark: "#01233f" }}
       headerImage={
         <Image
-          source={require("../assets/images/background.png")}
+          source={require("@/assets/images/background.png")}
           style={styles.reactLogo}
         />
       }

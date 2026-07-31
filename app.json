@@ -8,8 +8,15 @@
       "package": "com.tradilibras.app",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#8bc1ff",
+        "foregroundImage": "./assets/images/logoapp.png",
+        "backgroundColor": "#8bc1ff"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1d04bd1c-34d3-4c05-8d33-e322e4dded6f"
+      }
+    },
     "plugins": [
       "expo-font",
       "expo-router",
@@ -17,4 +24,4 @@
       "expo-video"
     ]
   }
-}}}
+}

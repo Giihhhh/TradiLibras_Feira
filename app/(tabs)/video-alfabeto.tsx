@@ -1,4 +1,5 @@
 import { ThemedView } from "@/components/themed-view";
+import { usePauseOnBlur } from "@/hooks/use-pause-on-blur";
 import { useRouter } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
 import React from "react";
@@ -13,6 +14,8 @@ export default function VideoAlfabetoPage() {
     player.loop = false;
     player.play();
   });
+
+  usePauseOnBlur(player); // pausa automaticamente ao sair da tela);
 
   return (
     <ThemedView style={styles.container}>

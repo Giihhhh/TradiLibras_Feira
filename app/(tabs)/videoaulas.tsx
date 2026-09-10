@@ -101,6 +101,26 @@ export default function OQueEhLibras() {
           </Pressable>
         </Link>
       </ThemedView>
+
+    <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/video-numeros" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Image
+                  source={require("@/assets/images/videoaulas/thumbnumeros.png")}
+                  style={styles.reactLogo}
+                />
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }

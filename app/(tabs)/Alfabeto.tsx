@@ -2,6 +2,7 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Fonts } from "@/constants/theme";
+import { useRouter } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useState } from "react";
 import {
@@ -10,6 +11,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
 import { dicionarioMap } from "../videoMap";
@@ -73,7 +75,7 @@ function ModalConteudo({ letra }: { letra: string }) {
 
 export default function OQueEhLibras() {
   const [letraSelecionada, setLetraSelecionada] = useState<string | null>(null);
-
+  const router = useRouter();
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#8bc1ff", dark: "#01233f" }}
@@ -84,6 +86,11 @@ export default function OQueEhLibras() {
         />
       }
     >
+      <Pressable onPress={() => router.replace("/dicion")} style={styles.backButton} hitSlop={10}>
+              {({ pressed }) => (
+                <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
+              )}
+            </Pressable>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           Alfabeto
@@ -256,5 +263,16 @@ const styles = StyleSheet.create({
   fecharTexto: {
     color: "#fff",
     fontWeight: "700",
+  },
+    backButton: {
+    marginTop: 10,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    alignSelf: "flex-start",
+  },
+  backButtonText: {
+    color: "#0a4da4",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

@@ -57,13 +57,7 @@ export default function OQueEhLibras() {
       </ThemedView>
 
       <ThemedView style={styles.centerButtonContainer}>
-        <Link
-          href={{
-            pathname: "/modulo-indisponivel",
-            params: { modulo: "Verbos" },
-          }}
-          asChild
-        >
+        <Link href="/Verbos" asChild>
           <Pressable>
             {({ pressed }) => (
               <View
@@ -80,13 +74,7 @@ export default function OQueEhLibras() {
       </ThemedView>
 
       <ThemedView style={styles.centerButtonContainer}>
-        <Link
-          href={{
-            pathname: "/modulo-indisponivel",
-            params: { modulo: "Cores" },
-          }}
-          asChild
-        >
+        <Link href="/Cores" asChild>
           <Pressable>
             {({ pressed }) => (
               <View
@@ -96,6 +84,23 @@ export default function OQueEhLibras() {
                 ]}
               >
                 <Text style={styles.customButtonText}>Cores</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
+
+      <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/Numeros" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Text style={styles.customButtonText}>Números</Text>
               </View>
             )}
           </Pressable>

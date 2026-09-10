@@ -2,15 +2,17 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Fonts } from "@/constants/theme";
+import { useRouter } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useState } from "react";
 import {
-    Image,
-    Modal,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    View,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import { dicionarioMap } from "../videoMap";
 
@@ -54,6 +56,7 @@ function ModalConteudo({ chave }: { chave: string }) {
 }
 
 export default function SaudacoesPage() {
+  const router = useRouter();
   const [saudacaoSelecionada, setSaudacaoSelecionada] = useState<string | null>(
     null,
   );
@@ -68,6 +71,11 @@ export default function SaudacoesPage() {
         />
       }
     >
+      <Pressable onPress={() => router.replace("/dicion")} style={styles.backButton} hitSlop={10}>
+        {({ pressed }) => (
+          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
+        )}
+      </Pressable>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           Saudações
@@ -230,5 +238,16 @@ const styles = StyleSheet.create({
   fecharTexto: {
     color: "#fff",
     fontWeight: "700",
+  },
+  backButton: {
+    marginTop: 10,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    alignSelf: "flex-start",
+  },
+  backButtonText: {
+    color: "#0a4da4",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

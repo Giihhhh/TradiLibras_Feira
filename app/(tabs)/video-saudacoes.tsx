@@ -2,7 +2,6 @@ import { ThemedView } from "@/components/themed-view";
 import { usePauseOnBlur } from "@/hooks/use-pause-on-blur";
 import { useRouter } from "expo-router";
 import { useVideoPlayer, VideoView } from "expo-video";
-import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 const videoSource = require("@/assets/images/videoaulas/videosaudacoes.mp4");
@@ -32,9 +31,6 @@ export default function VideoSaudacoesPage() {
       <VideoView
         style={styles.video}
         player={player}
-        allowsFullscreen
-        allowsPictureInPicture
-        nativeControls
       />
     </ThemedView>
   );

@@ -1,5 +1,4 @@
 import { Tabs } from "expo-router";
-import React from "react";
 import { Image } from "react-native";
 
 import { HapticTab } from "@/components/haptic-tab";
@@ -8,11 +7,12 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const resolvedScheme = colorScheme === "dark" ? "dark" : "light";
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[resolvedScheme].tint,
         tabBarInactiveTintColor: "#8ec0fb",
         headerShown: false,
         tabBarButton: HapticTab,
@@ -107,6 +107,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Numeros"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="Cores"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="Verbos"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="[letra]"
         options={{
           href: null,
@@ -168,6 +186,12 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="texto4"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="video-numeros"
         options={{
           href: null,
         }}

@@ -1,0 +1,29 @@
+COMO APLICAR
+============
+Substitua estes arquivos no seu projeto (mesmos caminhos):
+- app/(tabs)/Numeros.tsx   -> NOVO
+- app/(tabs)/Cores.tsx     -> NOVO
+- app/(tabs)/Verbos.tsx    -> NOVO
+- app/(tabs)/_layout.tsx   -> MODIFICADO (registrei as 3 telas novas)
+- app/(tabs)/dicion.tsx    -> MODIFICADO (Verbos/Cores agora abrem de verdade; adicionei botão Números)
+- app/videoMap.ts          -> MODIFICADO (adicionei as chaves novas)
+
+VÍDEOS QUE VOCÊ PRECISA ADICIONAR EM assets/images/videos/
+============================================================
+Números:
+videonumero1.mp4  videonumero2.mp4  videonumero3.mp4  videonumero4.mp4
+videonumero5.mp4  videonumero6.mp4  videonumero7.mp4  videonumero8.mp4
+videonumero9.mp4  videonumero10.mp4 videonumero100.mp4 videonumero1000.mp4
+
+Cores:
+videoamarelo.mp4  videoazul.mp4    videobranco.mp4  videopreto.mp4
+videoverde.mp4    videorosa.mp4    videoroxo.mp4    videolaranja.mp4
+videomarrom.mp4   videocinza.mp4   videovermelho.mp4
+
+Verbos:
+videocomer.mp4    videobrincar.mp4  videofalar.mp4    videoaprender.mp4
+videoavisar.mp4   videoadicionar.mp4 videonamorar.mp4 videopreocupar.mp4
+
+IMPORTANTE: o require() do Metro é resolvido em tempo de build. Se rodar o
+app SEM esses arquivos existirem, vai dar erro "Unable to resolve module".
+Adicione os vídeos com esses nomes exatos antes de rodar/buildar.

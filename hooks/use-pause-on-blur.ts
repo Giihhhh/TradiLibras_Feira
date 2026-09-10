@@ -1,5 +1,5 @@
 // hooks/use-pause-on-blur.ts
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "expo-router";
 import type { VideoPlayer } from "expo-video";
 import { useCallback } from "react";
 

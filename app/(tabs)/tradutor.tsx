@@ -1,8 +1,8 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { useFocusEffect } from "@react-navigation/native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import React, { useCallback, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useRef, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, StyleSheet } from "react-native";
 
 // ⚠️ Troque pelo IP local do seu computador na mesma rede Wi-Fi do celular.
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     // força a câmera a preencher 100% do container, sem sobrar preto
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   resultadoBox: {
     position: "absolute",

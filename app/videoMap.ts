@@ -105,4 +105,103 @@ export const dicionarioMap: Record<string, LetraInfo> = {
   PRAZER: {
     video: require("../assets/images/videos/videoprazeremconhecervoce.mp4"),
   },
+
+  // ⚠️ Os vídeos abaixo (números, cores, verbos) ainda não existem na pasta
+  // assets/images/videos/ — adicione os arquivos .mp4 com esses nomes exatos
+  // que o require() vai encontrar sozinho, sem precisar mexer em mais nada.
+  "1": {
+    video: require("../assets/images/videos/videonumero1.mp4"),
+  },
+  "2": {
+    video: require("../assets/images/videos/videonumero2.mp4"),
+  },
+  "3": {
+    video: require("../assets/images/videos/videonumero3.mp4"),
+  },
+  "4": {
+    video: require("../assets/images/videos/videonumero4.mp4"),
+  },
+  "5": {
+    video: require("../assets/images/videos/videonumero5.mp4"),
+  },
+  "6": {
+    video: require("../assets/images/videos/videonumero6.mp4"),
+  },
+  "7": {
+    video: require("../assets/images/videos/videonumero7.mp4"),
+  },
+  "8": {
+    video: require("../assets/images/videos/videonumero8.mp4"),
+  },
+  "9": {
+    video: require("../assets/images/videos/videonumero9.mp4"),
+  },
+  "10": {
+    video: require("../assets/images/videos/videonumero10.mp4"),
+  },
+  "100": {
+    video: require("../assets/images/videos/videonumero100.mp4"),
+  },
+  "1000": {
+    video: require("../assets/images/videos/videonumero1000.mp4"),
+  },
+
+  AMARELO: {
+    video: require("../assets/images/videos/videoamarelo.mp4"),
+  },
+  AZUL: {
+    video: require("../assets/images/videos/videoazul.mp4"),
+  },
+  BRANCO: {
+    video: require("../assets/images/videos/videobranco.mp4"),
+  },
+  PRETO: {
+    video: require("../assets/images/videos/videopreto.mp4"),
+  },
+  VERDE: {
+    video: require("../assets/images/videos/videoverde.mp4"),
+  },
+  ROSA: {
+    video: require("../assets/images/videos/videorosa.mp4"),
+  },
+  ROXO: {
+    video: require("../assets/images/videos/videoroxo.mp4"),
+  },
+  LARANJA: {
+    video: require("../assets/images/videos/videolaranja.mp4"),
+  },
+  MARROM: {
+    video: require("../assets/images/videos/videomarrom.mp4"),
+  },
+  CINZA: {
+    video: require("../assets/images/videos/videocinza.mp4"),
+  },
+  VERMELHO: {
+    video: require("../assets/images/videos/videovermelho.mp4"),
+  },
+
+  COMER: {
+    video: require("../assets/images/videos/videocomer.mp4"),
+  },
+  BRINCAR: {
+    video: require("../assets/images/videos/videobrincar.mp4"),
+  },
+  FALAR: {
+    video: require("../assets/images/videos/videofalar.mp4"),
+  },
+  APRENDER: {
+    video: require("../assets/images/videos/videoaprender.mp4"),
+  },
+  AVISAR: {
+    video: require("../assets/images/videos/videoavisar.mp4"),
+  },
+  ADICIONAR: {
+    video: require("../assets/images/videos/videoadicionar.mp4"),
+  },
+  NAMORAR: {
+    video: require("../assets/images/videos/videonamorar.mp4"),
+  },
+  PREOCUPAR: {
+    video: require("../assets/images/videos/videopreocupar.mp4"),
+  },
 };

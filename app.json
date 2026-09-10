@@ -21,7 +21,10 @@
       "expo-font",
       "expo-router",
       "expo-web-browser",
-      "expo-video"
+      "expo-video",
+      "expo-image",
+      "expo-splash-screen",
+      "expo-status-bar"
     ]
   }
 }

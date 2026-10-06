@@ -31,6 +31,15 @@
         {
           "cameraPermissionText": "Precisamos da câmera para traduzir Libras."
         }
+      ],
+      [
+        "expo-vision-camera-v4-mediapipe/plugin/index.js",
+        {
+          "numHands": 1,
+          "minDetectionConfidence": 0.5,
+          "minPresenceConfidence": 0.5,
+          "minTrackingConfidence": 0.5
+        }
       ]
     ]
   }

@@ -18,7 +18,19 @@ import { dicionarioMap } from "../videoMap";
 
 // Cores disponíveis. A chave usada aqui precisa bater exatamente com a
 // chave cadastrada em videoMap.ts (ex: "1", "10", "100", "1000").
-const CORES = ["AMARELO", "AZUL", "BRANCO", "PRETO", "VERDE", "ROSA", "ROXO", "LARANJA", "MARROM", "CINZA", "VERMELHO"];
+const CORES = [
+  "AMARELO",
+  "AZUL",
+  "BRANCO",
+  "PRETO",
+  "VERDE",
+  "ROSA",
+  "ROXO",
+  "LARANJA",
+  "MARROM",
+  "CINZA",
+  "VERMELHO",
+];
 
 function ModalConteudo({ chave }: { chave: string }) {
   const info = dicionarioMap[chave];
@@ -36,7 +48,13 @@ function ModalConteudo({ chave }: { chave: string }) {
     );
   }
 
-  return <VideoView style={styles.modalVideo} player={player} allowsFullscreen />;
+  return (
+    <VideoView
+      style={styles.modalVideo}
+      player={player}
+      fullscreenOptions={{ enable: true }}
+    />
+  );
 }
 
 export default function CoresPage() {
@@ -53,9 +71,15 @@ export default function CoresPage() {
         />
       }
     >
-            <Pressable onPress={() => router.replace("/dicion")} style={styles.backButton} hitSlop={10}>
+      <Pressable
+        onPress={() => router.replace("/dicion")}
+        style={styles.backButton}
+        hitSlop={10}
+      >
         {({ pressed }) => (
-          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
+          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>
+            ← Voltar
+          </Text>
         )}
       </Pressable>
 
@@ -101,10 +125,7 @@ export default function CoresPage() {
               </ThemedText>
 
               {corSelecionada && (
-                <ModalConteudo
-                  key={corSelecionada}
-                  chave={corSelecionada}
-                />
+                <ModalConteudo key={corSelecionada} chave={corSelecionada} />
               )}
 
               <Pressable
@@ -215,7 +236,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "700",
   },
-    backButton: {
+  backButton: {
     marginTop: 10,
     marginBottom: 4,
     paddingHorizontal: 8,

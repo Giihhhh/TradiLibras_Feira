@@ -1,21 +1,44 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import { carregarModelo, prever } from "@/lib/libras"; // novo
+import { normalizar } from "@/lib/normalizar"; //also new
+//import { CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, StyleSheet } from "react-native";
 
-// ⚠️ Troque pelo IP local do seu computador na mesma rede Wi-Fi do celular.
-// Descubra com `ipconfig` (Windows) ou `ifconfig`/`ip a` (Linux/Mac).
-// Quando for hospedar a API de verdade (Render/Railway), troque por essa URL.
-const API_URL = "https://tradilibras-api.onrender.com/traduzir";
+// ⚠️ usando a API (codigo antigo)
+//const API_URL = "https://tradilibras-api.onrender.com/traduzir";
+
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+  useFrameProcessor,
+} from "react-native-vision-camera";
+import { useSharedValue, Worklets } from "react-native-worklets-core";
+// invencao do vs code (pode dar pra usar depois)import { detectHandLandmarks } from "vision-camera-handlandmarks";
 
 const INTERVALO_MS = 150; // intervalo entre cada foto
 const MAX_FRAMES = 30; // mesmo N_FRAMES do seu modelo
+const ESPELHAR = true; //novo
+
+// isso aqui eh pra mexer no espelhamento se estiver dando errado
+function ajustarPontos(pontos: number[]) {
+  const out = pontos.slice();
+  if (ESPELHAR) {
+    for (let i = 0; i < out.length; i += 3) out[i] = 1 - out[i];
+  }
+  return out;
+}
 
 export default function TradutorPage() {
-  const cameraRef = useRef<CameraView>(null);
-  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  //const cameraRef = useRef<CameraView>(null);
+  //const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  const device = useCameraDevice("front"); //novo
+  const { hasPermission, requestPermission } = useCameraPermission(); //novo
+  const [focado, setFocado] = useState(false); //novo
+  const [modeloPronto, setModeloPronto] = useState(false); //novo
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [resultado, setResultado] = useState<{
@@ -23,11 +46,16 @@ export default function TradutorPage() {
     confianca: number;
   } | null>(null);
 
-  const framesRef = useRef<string[]>([]);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // !!!!!!!!!!!!!!!!!! essa parte tbm mudei toda
+  //const framesRef = useRef<string[]>([]);
+  //const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const framesRef = useRef<number[][]>([]);
+  const gravando = useSharedValue(false);
+  const ultimoTs = useSharedValue(0);
 
   useFocusEffect(
     useCallback(() => {
+      setFocado(true); //linha nova
       const timer = setTimeout(() => {
         Alert.alert(
           "Aviso",
@@ -36,60 +64,119 @@ export default function TradutorPage() {
         );
       }, 500);
 
-      return () => clearTimeout(timer);
-    }, []),
+      return () => {
+        clearTimeout(timer);
+        setFocado(false); //linha nova
+        gravando.value = false; //linha nova
+      };
+    }, [gravando]), //colchete tava vazio antes
   );
 
-  const ensurePermissions = async () => {
-    if (!cameraPermission?.granted) {
-      const permission = await requestCameraPermission();
-      if (!permission.granted) {
+  // Pré-carregar o modelo ao abrir a tela, tbm nao tinha antes
+  useEffect(() => {
+    carregarModelo()
+      .then(() => setModeloPronto(true))
+      .catch((e) => {
+        console.error(e);
+        Alert.alert("Erro", "Não foi possível carregar o modelo.");
+      });
+  }, []);
+
+  //essa parte da permissao nao tenho ctz se vai dar certo, tem q testar
+  //const ensurePermissions = async () => {
+  //if (!hasPermission) {
+  //const permissionGranted = await requestPermission();
+  //if (!permissionGranted) {
+  //Alert.alert(
+  //"Permissão necessária",
+  //"É preciso liberar a câmera para continuar.",
+  //);
+  //return false;
+  //}
+  //}
+  //return true;
+  //};
+  //essa parte toda aqui era antiga, vou tirar
+  //const capturarFrame = async () => {
+  //if (!cameraRef.current) return;
+  //try {
+  //const foto = await cameraRef.current.takePictureAsync({
+  //quality: 0.8,
+  //skipProcessing: true,
+  //shutterSound: false,
+  //});
+  //if (foto?.uri) {
+  //framesRef.current.push(foto.uri);
+  // mantém só os últimos MAX_FRAMES, igual seu script faz
+  //if (framesRef.current.length > MAX_FRAMES) {
+  //framesRef.current.shift();
+  //}
+  //}
+  //} catch (error) {
+  //console.warn("Erro ao capturar frame:", error);
+  //}
+  //};
+  //....
+  //....
+  // agora a parte nova:
+  // Roda no JS: recebe os 63 valores de um frame, ajusta, normaliza e guarda
+  const receberLandmarks = Worklets.createRunOnJS((pontos: number[]) => {
+    framesRef.current.push(normalizar(ajustarPontos(pontos)));
+    if (framesRef.current.length > MAX_FRAMES) framesRef.current.shift();
+  });
+
+  // Roda na thread da câmera, a cada frame
+  const frameProcessor = useFrameProcessor(
+    (frame) => {
+      "worklet";
+      if (!gravando.value) return;
+
+      const agora = Date.now();
+      if (agora - ultimoTs.value < INTERVALO_MS) return;
+      ultimoTs.value = agora;
+
+      const r = detectHandLandmarks(frame);
+      const mao = r?.hands?.[0];
+      if (!mao || mao.length < 21) return; // sem mão: não adiciona nada
+
+      const pontos: number[] = [];
+      for (let i = 0; i < 21; i++) pontos.push(mao[i].x, mao[i].y, mao[i].z);
+      receberLandmarks(pontos);
+    },
+    [receberLandmarks, gravando, ultimoTs],
+  );
+  //fim da parte nova
+  const iniciarGravacao = async () => {
+    //const hasPermission = await ensurePermissions();
+    //if (!hasPermission) return;
+    if (!hasPermission) {
+      //essa parte do if eh nova
+      const ok = await requestPermission();
+      if (!ok) {
         Alert.alert(
           "Permissão necessária",
           "É preciso liberar a câmera para continuar.",
         );
-        return false;
+        return;
       }
     }
-    return true;
-  };
-
-  const capturarFrame = async () => {
-    if (!cameraRef.current) return;
-    try {
-      const foto = await cameraRef.current.takePictureAsync({
-        quality: 0.8,
-        skipProcessing: true,
-        shutterSound: false,
-      });
-      if (foto?.uri) {
-        framesRef.current.push(foto.uri);
-        // mantém só os últimos MAX_FRAMES, igual seu script faz
-        if (framesRef.current.length > MAX_FRAMES) {
-          framesRef.current.shift();
-        }
-      }
-    } catch (error) {
-      console.warn("Erro ao capturar frame:", error);
-    }
-  };
-
-  const iniciarGravacao = async () => {
-    const hasPermission = await ensurePermissions();
-    if (!hasPermission) return;
 
     framesRef.current = [];
+    ultimoTs.value = 0; //novo
     setResultado(null);
+    gravando.value = true; //novo
     setIsRecording(true);
 
-    intervalRef.current = setInterval(capturarFrame, INTERVALO_MS);
+    //intervalRef.current = setInterval(capturarFrame, INTERVALO_MS);
   };
 
-  const pararGravacaoEEnviar = async () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+  //const pararGravacaoEEnviar = async () => {
+  const pararGravacaoEPrever = async () => {
+    //if (intervalRef.current) {
+    //clearInterval(intervalRef.current);
+    //intervalRef.current = null;
+    //}
+    gravando.value = false;
     setIsRecording(false);
 
     if (framesRef.current.length === 0) {
@@ -99,46 +186,59 @@ export default function TradutorPage() {
 
     setIsLoading(true);
 
+    //parte antiga-----------------------------------------------------------
+    //try {
+    //const formData = new FormData();
+    //framesRef.current.forEach((uri, index) => {
+    //formData.append("frames", {
+    //uri,
+    //name: `frame_${index}.jpg`,
+    //type: "image/jpeg",
+    //} as any);
+    //});
+
+    //const response = await fetch(API_URL, {
+    //method: "POST",
+    //body: formData,
+    //});
+
+    //if (!response.ok) {
+    //throw new Error(`Erro na API: ${response.status}`);
+    //}
+
+    //const data = await response.json();
+
+    //if (data.erro) {
+    //Alert.alert("Aviso", data.erro);
+    //} else {
+    //setResultado({ letra: data.letra, confianca: data.confianca });
+    //}
+    //} catch (error) {
+    //console.error(error);
+    //Alert.alert(
+    //"Erro de conexão",
+    //"Não foi possível conectar à API de tradução. Verifique se ela está rodando e se o IP está correto.",
+    //);
+    //} finally {
+    //setIsLoading(false);
+    //}
+    //};
+    //parte nova-----------------------------------------------------------
     try {
-      const formData = new FormData();
-      framesRef.current.forEach((uri, index) => {
-        formData.append("frames", {
-          uri,
-          name: `frame_${index}.jpg`,
-          type: "image/jpeg",
-        } as any);
-      });
-
-      const response = await fetch(API_URL, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro na API: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.erro) {
-        Alert.alert("Aviso", data.erro);
-      } else {
-        setResultado({ letra: data.letra, confianca: data.confianca });
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert(
-        "Erro de conexão",
-        "Não foi possível conectar à API de tradução. Verifique se ela está rodando e se o IP está correto.",
-      );
+      const r = await prever(framesRef.current);
+      if ("erro" in r) Alert.alert("Aviso", r.erro);
+      else setResultado(r);
+    } catch (e) {
+      console.error(e);
+      Alert.alert("Erro", "Falha ao rodar o modelo.");
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleStartStopRecording = () => {
     if (isRecording) {
-      pararGravacaoEEnviar();
+      //pararGravacaoEEnviar();
+      pararGravacaoEPrever();
     } else {
       iniciarGravacao();
     }
@@ -161,13 +261,25 @@ export default function TradutorPage() {
 
       <ThemedView style={styles.cameraWrapper}>
         <ThemedView style={styles.cameraContainer}>
-          <CameraView
-            ref={cameraRef}
-            style={styles.camera}
-            facing="front"
-            flash="off"
-            animateShutter={false}
-          />
+          {device ? (
+            <Camera //CameraView
+              style={StyleSheet.absoluteFill}
+              device={device}
+              isActive={focado}
+              pixelFormat="rgb"
+              frameProcessor={frameProcessor}
+              //ref={cameraRef}
+              //style={styles.camera}
+              //facing="front"
+              //flash="off"
+              //animateShutter={false}
+            />
+          ) : (
+            //parenteses eh da parte nova
+            <ThemedText style={{ color: "#fff", padding: 16 }}>
+              Câmera frontal não encontrada.
+            </ThemedText>
+          )}
 
           {resultado && (
             <ThemedView style={styles.resultadoBox}>
@@ -183,9 +295,11 @@ export default function TradutorPage() {
         <Pressable
           style={[styles.button, isRecording && styles.buttonRecording]}
           onPress={handleStartStopRecording}
-          disabled={isLoading}
+          //disabled={isLoading}
+          disabled={isLoading || !modeloPronto}
         >
-          {isLoading ? (
+          {isLoading || !modeloPronto ? (
+            //{isLoading ? (
             <ActivityIndicator color="#6184b1" />
           ) : (
             <ThemedText style={styles.buttonText}>
@@ -219,6 +333,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#000",
   },
+  //essa parte n tem no novo, mas vou deixar
   camera: {
     // força a câmera a preencher 100% do container, sem sobrar preto
     ...StyleSheet.absoluteFill,
@@ -244,7 +359,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 999,
-    backgroundColor: "#fg185999",
+    backgroundColor: "#6184b1",
     minWidth: 180,
     alignItems: "center",
   },

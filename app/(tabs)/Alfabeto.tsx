@@ -67,9 +67,11 @@ function ModalConteudo({ letra }: { letra: string }) {
   }
 
   return (
-    <>
-      <VideoView style={styles.modalVideo} player={player} allowsFullscreen />
-    </>
+    <VideoView
+      style={styles.modalVideo}
+      player={player}
+      fullscreenOptions={{ enable: true }}
+    />
   );
 }
 
@@ -86,11 +88,17 @@ export default function OQueEhLibras() {
         />
       }
     >
-      <Pressable onPress={() => router.replace("/dicion")} style={styles.backButton} hitSlop={10}>
-              {({ pressed }) => (
-                <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>← Voltar</Text>
-              )}
-            </Pressable>
+      <Pressable
+        onPress={() => router.replace("/dicion")}
+        style={styles.backButton}
+        hitSlop={10}
+      >
+        {({ pressed }) => (
+          <Text style={[styles.backButtonText, pressed && { opacity: 0.6 }]}>
+            ← Voltar
+          </Text>
+        )}
+      </Pressable>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
           Alfabeto
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "700",
   },
-    backButton: {
+  backButton: {
     marginTop: 10,
     marginBottom: 4,
     paddingHorizontal: 8,

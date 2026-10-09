@@ -2,20 +2,32 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { carregarModelo, prever } from "@/lib/libras"; // novo
 import { normalizar } from "@/lib/normalizar"; //also new
-//import { CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, StyleSheet } from "react-native";
-
-// ⚠️ usando a API (codigo antigo)
-//const API_URL = "https://tradilibras-api.onrender.com/traduzir";
 
 import {
   Camera,
   useCameraDevice,
   useCameraPermission,
   useFrameProcessor,
+  VisionCameraProxy,
+  type Frame,
 } from "react-native-vision-camera";
+
+const handLandmarker = VisionCameraProxy.initFrameProcessorPlugin(
+  "handLandmarker",
+  {},
+);
+
+function detectHandLandmarks(frame: Frame) {
+  "worklet";
+  if (handLandmarker == null) {
+    throw new Error("Plugin handLandmarker não encontrado");
+  }
+  return handLandmarker.call(frame) as any;
+}
+
 import { useSharedValue, Worklets } from "react-native-worklets-core";
 // invencao do vs code (pode dar pra usar depois)import { detectHandLandmarks } from "vision-camera-handlandmarks";
 

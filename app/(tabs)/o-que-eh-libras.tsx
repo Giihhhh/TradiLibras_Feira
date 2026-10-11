@@ -18,7 +18,7 @@ export default function OQueEhLibras() {
         >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
-          O que é a LIBRAS?
+          Sobre a Libras
         </ThemedText>
       </ThemedView>
 

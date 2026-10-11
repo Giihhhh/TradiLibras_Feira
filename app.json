@@ -8,7 +8,7 @@
       "package": "com.tradilibras.app",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logoapp.png",
+        "foregroundImage": "./assets/images/logoapp.jpg",
         "backgroundColor": "#8bc1ff"
       }
     },

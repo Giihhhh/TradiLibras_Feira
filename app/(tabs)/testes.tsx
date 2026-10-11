@@ -94,6 +94,22 @@ export default function OQueEhLibras() {
           </Pressable>
         </Link>
       </ThemedView>
+      <ThemedView style={styles.centerButtonContainer}>
+        <Link href="/atividades/quiz-numeros" asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.customButton,
+                  pressed && styles.customButtonPressed,
+                ]}
+              >
+                <Text style={styles.customButtonText}>Números</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }

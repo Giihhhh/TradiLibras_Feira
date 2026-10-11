@@ -85,6 +85,30 @@ export default function OQueEhLibras() {
             </Link>
           </ThemedView>
 
+          <ThemedView style={styles.centerButtonContainer}>
+            <Link href="/texto5" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
+                    <Text style={styles.customButtonText}>Edição México - LSM</Text>
+                  </View>
+                )}
+              </Pressable>
+            </Link>
+          </ThemedView>
+
+          <ThemedView style={styles.centerButtonContainer}>
+            <Link href="/texto6" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <View style={[styles.customButton, pressed && styles.customButtonPressed]}>
+                    <Text style={styles.customButtonText}>Edición México - LSM</Text>
+                  </View>
+                )}
+              </Pressable>
+            </Link>
+          </ThemedView>
+
     </ParallaxScrollView>
   );
 }

@@ -196,6 +196,18 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="texto5"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="texto6"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

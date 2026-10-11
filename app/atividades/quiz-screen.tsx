@@ -24,6 +24,7 @@ const TITULOS_TEMA: Record<Tema, string> = {
   saudacoes: "Saudações",
   verbos: "Verbos",
   cores: "Cores",
+  numeros: "Números",
 };
 
 type Feedback = "correta" | "incorreta" | null;

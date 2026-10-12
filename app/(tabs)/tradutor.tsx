@@ -32,7 +32,7 @@ import { useSharedValue, Worklets } from "react-native-worklets-core";
 // invencao do vs code (pode dar pra usar depois)import { detectHandLandmarks } from "vision-camera-handlandmarks";
 
 const INTERVALO_MS = 150; // intervalo entre cada foto
-const MAX_FRAMES = 30; // mesmo N_FRAMES do seu modelo
+const MAX_FRAMES = 50; // mesmo N_FRAMES do seu modelo
 const ESPELHAR = true; //novo
 
 // isso aqui eh pra mexer no espelhamento se estiver dando errado

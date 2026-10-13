@@ -8,7 +8,9 @@ export type Meta = {
   num_classes: number;
   n_frames: number;
   eps: number;
+  classes?: string[];
 };
+
 export type Manifest = {
   meta: Meta;
   tensores: {

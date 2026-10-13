@@ -32,14 +32,36 @@ import { useSharedValue, Worklets } from "react-native-worklets-core";
 // invencao do vs code (pode dar pra usar depois)import { detectHandLandmarks } from "vision-camera-handlandmarks";
 
 const INTERVALO_MS = 150; // intervalo entre cada foto
-const MAX_FRAMES = 50; // mesmo N_FRAMES do seu modelo
-const ESPELHAR = true; //novo
+const MAX_FRAMES = 30; // mesmo N_FRAMES do seu modelo
+const DEBUG = false; // volte para false depois do diagnóstico
 
 // isso aqui eh pra mexer no espelhamento se estiver dando errado
-function ajustarPontos(pontos: number[]) {
-  const out = pontos.slice();
-  if (ESPELHAR) {
-    for (let i = 0; i < out.length; i += 3) out[i] = 1 - out[i];
+type Modo = "cima" | "direita" | "esquerda" | "baixo";
+const MODO: Modo = "cima"; // <- valor do campo "direcao" no DIAG
+
+function orientar(x: number, y: number, modo: Modo): [number, number] {
+  switch (modo) {
+    case "direita":
+      return [y, -x];
+    case "esquerda":
+      return [-y, x];
+    case "baixo":
+      return [-x, -y];
+    default:
+      return [x, y];
+  }
+}
+
+function ajustarPontos(p: number[], w: number, h: number) {
+  const retrato = MODO === "cima" || MODO === "baixo";
+  const W = retrato ? Math.min(w, h) : Math.max(w, h);
+  const H = retrato ? Math.max(w, h) : Math.min(w, h);
+  const out = new Array<number>(p.length);
+  for (let i = 0; i < p.length; i += 3) {
+    const [x, y] = orientar(p[i] * W, p[i + 1] * H, MODO);
+    out[i] = x;
+    out[i + 1] = y;
+    out[i + 2] = p[i + 2] * W;
   }
   return out;
 }
@@ -132,10 +154,34 @@ export default function TradutorPage() {
   //....
   // agora a parte nova:
   // Roda no JS: recebe os 63 valores de um frame, ajusta, normaliza e guarda
-  const receberLandmarks = Worklets.createRunOnJS((pontos: number[]) => {
-    framesRef.current.push(normalizar(ajustarPontos(pontos)));
-    if (framesRef.current.length > MAX_FRAMES) framesRef.current.shift();
-  });
+  const receberLandmarks = Worklets.createRunOnJS(
+    (pontos: number[], w: number, h: number) => {
+      if (DEBUG && framesRef.current.length === 0) {
+        const dx = pontos[36] - pontos[0]; // ponta do dedo médio (12) menos o punho (0)
+        const dy = pontos[37] - pontos[1];
+        const direcao =
+          Math.abs(dy) >= Math.abs(dx)
+            ? dy < 0
+              ? "cima"
+              : "baixo"
+            : dx > 0
+              ? "direita"
+              : "esquerda";
+        console.log(
+          "DIAG",
+          JSON.stringify({
+            w,
+            h,
+            dx: +dx.toFixed(3),
+            dy: +dy.toFixed(3),
+            direcao,
+          }),
+        );
+      }
+      framesRef.current.push(normalizar(ajustarPontos(pontos, w, h)));
+      if (framesRef.current.length > MAX_FRAMES) framesRef.current.shift();
+    },
+  );
 
   // Roda na thread da câmera, a cada frame
   const frameProcessor = useFrameProcessor(
@@ -153,7 +199,7 @@ export default function TradutorPage() {
 
       const pontos: number[] = [];
       for (let i = 0; i < 21; i++) pontos.push(mao[i].x, mao[i].y, mao[i].z);
-      receberLandmarks(pontos);
+      receberLandmarks(pontos, frame.width, frame.height);
     },
     [receberLandmarks, gravando, ultimoTs],
   );

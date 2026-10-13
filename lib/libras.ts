@@ -4,7 +4,7 @@ import manifest from "../assets/models/pesos.json";
 import { N_FEATURES, N_FRAMES } from "./normalizar";
 import { criarModelo, logits, type Manifest, type Modelo } from "./transformer";
 
-export const LETRAS = Array.from({ length: 26 }, (_, i) =>
+const LETRAS_PADRAO = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i),
 );
 
@@ -17,25 +17,15 @@ export function carregarModelo() {
         require("../assets/models/pesos.bin"),
       ).downloadAsync();
       const bytes = await new File(asset.localUri!).bytes();
-      // copia para garantir alinhamento de 4 bytes
       const pesos = new Float32Array(
         bytes.buffer.slice(
           bytes.byteOffset,
           bytes.byteOffset + bytes.byteLength,
         ),
       );
-      const modelo = criarModelo(pesos, manifest as Manifest);
-      if (modelo.meta.num_classes !== LETRAS.length) {
-        console.warn(
-          "O modelo tem",
-          modelo.meta.num_classes,
-          "classes, mas LETRAS tem",
-          LETRAS.length,
-        );
-      }
-      return modelo;
+      return criarModelo(pesos, manifest as Manifest);
     })().catch((e) => {
-      modeloPromise = null; // permite tentar de novo
+      modeloPromise = null;
       throw e;
     });
   }
@@ -46,12 +36,13 @@ export async function prever(sequencia: number[][]) {
   if (sequencia.length === 0) return { erro: "nenhuma mão detectada" as const };
 
   const modelo = await carregarModelo();
+  const rotulos = modelo.meta.classes ?? LETRAS_PADRAO;
 
   const frames = sequencia.slice(-N_FRAMES);
   const dados = new Float32Array(N_FRAMES * N_FEATURES); // zeros no final
   frames.forEach((f, i) => dados.set(f, i * N_FEATURES));
 
-  await new Promise((r) => setTimeout(r, 0)); // deixa a tela mostrar o "carregando"
+  await new Promise((r) => setTimeout(r, 0));
   const saida = logits(modelo, dados);
 
   const max = Math.max(...saida);
@@ -59,6 +50,17 @@ export async function prever(sequencia: number[][]) {
   const soma = exps.reduce((a, b) => a + b, 0);
   const probs = exps.map((e) => e / soma);
 
-  const idx = probs.indexOf(Math.max(...probs));
-  return { letra: LETRAS[idx], confianca: Math.round(probs[idx] * 1000) / 10 };
+  const ordem = probs
+    .map((p, i) => [i, p] as const)
+    .sort((a, b) => b[1] - a[1]);
+  console.log(
+    "top3:",
+    ordem
+      .slice(0, 3)
+      .map(([i, p]) => `${rotulos[i]} ${(p * 100).toFixed(0)}%`)
+      .join(" | "),
+  );
+
+  const [idx, melhor] = ordem[0];
+  return { letra: rotulos[idx], confianca: Math.round(melhor * 1000) / 10 };
 }
